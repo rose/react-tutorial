@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+/* from Thinking in React (http://facebook.github.io/react/blog/2013/11/05/thinking-in-react.html) */
   
 var CatRow = React.createClass({
   render: function() {
@@ -38,6 +39,29 @@ var ProdTable = React.createClass ({
   }
 });
 
+var SearchBar = React.createClass({
+  render: function() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Search" />
+        <p>
+          <input type="checkbox" />
+          Only show products in stock
+        </p>
+      </form>
+    );
+  }
+});
+ 
+var FilterTable = React.createClass({
+  render: function() {
+    return (
+      <div><SearchBar /><ProdTable products={this.props.products} /></div>
+    );
+  }
+});
+
+
 var products = [
   {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
   {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
@@ -47,6 +71,4 @@ var products = [
   {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
 ];
  
-React.renderComponent(<ProdTable products={products} />, document.body);
-
-console.log("ran script");
+React.renderComponent(<FilterTable products={products} />, document.body);
