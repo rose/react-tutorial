@@ -47,12 +47,29 @@ var SearchBar = React.createClass({
   render: function() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Search" value={this.props.filterText} />
+        <input 
+          type="text" 
+          placeholder="Search" 
+          value={this.props.filterText} 
+          ref="filterTextInput"
+          onChange={this.handleChange}
+        />
         <p>
-          <input type="checkbox" value={this.props.inStockOnly} />
+          <input 
+            type="checkbox" 
+            value={this.props.inStockOnly} 
+            ref="inStockOnlyInput"
+            onChange={this.handleChange}
+          />
           Only show products in stock
         </p>
       </form>
+    );
+  },
+  handleChange: function() {
+    this.props.onUserInput(
+      this.refs.filterTextInput.getDOMNode().value,
+      this.refs.inStockOnlyInput.getDOMNode().checked
     );
   }
 });
@@ -64,6 +81,7 @@ var FilterTable = React.createClass({
         <SearchBar 
           inStockOnly={this.state.inStockOnly}
           filterText={this.state.filterText}
+          onUserInput={this.handleUserInput}
         />
         <ProdTable 
           inStockOnly={this.state.inStockOnly}
@@ -75,6 +93,12 @@ var FilterTable = React.createClass({
   },
   getInitialState: function() {
     return {filterText: 'ball', inStockOnly: true};
+  },
+  handleUserInput: function(filterText, inStockOnly) {
+    this.setState({
+      filterText: filterText,
+      inStockOnly: inStockOnly
+    });
   }
 });
 
